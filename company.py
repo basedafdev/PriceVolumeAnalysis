@@ -11,9 +11,13 @@ class Company:
         """
         self.id = id
         self.storage = []
-        self.populate_storage()
-        update_data(id)
 
+
+        try:
+            self.populate_storage()
+        except:
+            update_data(id)
+            self.populate_storage()
     def populate_storage(self):
         """
         Fills up self.storage with data points
@@ -32,6 +36,5 @@ class Company:
 
 
 if __name__ == "__main__":
-    IBM = Company("IBM")
     for i in IBM.storage:
         print(i)
