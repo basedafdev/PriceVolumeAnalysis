@@ -1,0 +1,59 @@
+Metadata-Version: 1.1
+Name: pandas-datareader-gdax
+Version: 0.1.2
+Summary: GDAX data for Pandas in the style of DataReader.
+Home-page: https://github.com/bfolkens/pandas-datareader-gdax
+Author: Brad Folkens
+Author-email: bfolkens@gmail.com
+License: BSD license
+Description: ========
+        Overview
+        ========
+        
+        A library to retrieve GDAX historical data into a Pandas DataFrame, in a similar style to Pandas DataReader.
+        
+        
+        * Free software: BSD license
+        
+        Installation
+        ============
+        
+        ::
+        
+            pip install pandas-datareader-gdax
+        
+        Example
+        =======
+        
+        .. code-block:: python
+        
+          import pytz
+          from datetime import datetime
+          from pandas_datareader_gdax import get_data_gdax
+        
+          # Retrieve the GDAX data into a dataframe
+          df = get_data_gdax(
+             'BTC-USD',
+             granularity=5*60,
+             start=datetime(2016, 6, 1, 7, 0, 0, tzinfo=pytz.timezone('UTC')),
+             end=datetime(2017, 9, 1, 6, 59, 59, tzinfo=pytz.timezone('UTC'))
+          )
+        
+Keywords: python,finance,quant,data,crypto,bitcoin,gdax
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: Unix
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Software Development :: Libraries

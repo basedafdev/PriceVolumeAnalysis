@@ -1,9 +1,7 @@
 import datetime as dt
-from matplotlib import style
 import pandas_datareader.data as web
 
 def update_data(id: str, source='iex'):
-    style.use('ggplot')
     start = dt.datetime(dt.datetime.today().date().year,1,1)
     end = dt.datetime(dt.datetime.today().date().year,dt.datetime.today().date().month,dt.datetime.today().date().day-1)
     df = web.DataReader(id,source,start,end)
@@ -13,3 +11,4 @@ def update_data(id: str, source='iex'):
 if __name__ == "__main__":
     update_data("GOOG")
     update_data("TSLA")
+    update_data("IBM")
