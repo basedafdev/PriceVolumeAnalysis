@@ -16,7 +16,7 @@ def update_data(id: str, source='iex'):
 
 if __name__ == "__main__":
     """
-    Testing code
+    Testing the code
     """
     update_data("GOOG")
     update_data("TSLA")
