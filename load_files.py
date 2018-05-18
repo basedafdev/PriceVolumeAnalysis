@@ -1,7 +1,5 @@
 import datetime as dt
-import matplotlib.pyplot as plt
 from matplotlib import style
-import pandas as pd
 import pandas_datareader.data as web
 def update_data(id: str, source='iex'):
     style.use('ggplot')
@@ -10,3 +8,5 @@ def update_data(id: str, source='iex'):
     df = web.DataReader(id,source,start,end)
     df.to_csv('download.csv')
     print(df)
+if __name__ == "__main__":
+    
