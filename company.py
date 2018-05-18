@@ -10,4 +10,6 @@ class Company:
         self.id = id
         self.storage = []
         update_data(id)
-
+    def populate_storage
+if __name__ == "__main__":
+    IBM = Company("IBM")
