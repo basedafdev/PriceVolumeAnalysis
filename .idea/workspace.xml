@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a53b2b2b-469a-4ac3-bc18-d24807a28614" name="Default" comment="">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/PriceVolumeAnalysis.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PriceVolumeAnalysis.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -11,6 +12,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/load_files.py" afterPath="$PROJECT_DIR$/load_files.py" />
 >>>>>>> e489e86a41382a0274fd8800f1790635eeeea7a5
+=======
+      <change beforePath="$PROJECT_DIR$/company.py" afterPath="$PROJECT_DIR$/company.py" />
+>>>>>>> 1d924502a0a6dabc4973d827488fb556d919be2f
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,6 +29,7 @@
         <entry file="file://$PROJECT_DIR$/load_files.py">
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <state relative-caret-position="180">
               <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
 =======
@@ -34,6 +39,33 @@
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
+=======
+            <state relative-caret-position="330">
+              <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="data_point.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data_point.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="company.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/company.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+              <folding />
+>>>>>>> 1d924502a0a6dabc4973d827488fb556d919be2f
             </state>
           </provider>
         </entry>
@@ -70,6 +102,19 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+=======
+      <file leaf-file-name=".gitattributes" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitattributes">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+>>>>>>> 1d924502a0a6dabc4973d827488fb556d919be2f
       <file leaf-file-name="fred.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/PycharmProjects/CSC148/venv/lib/python3.6/site-packages/pandas_datareader/fred.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -110,6 +155,12 @@
       <list>
         <option value="$USER_HOME$/PycharmProjects/CSC148/venv/lib/python3.6/site-packages/pandas_datareader/fred.py" />
         <option value="$PROJECT_DIR$/load_files.py" />
+<<<<<<< HEAD
+=======
+        <option value="$PROJECT_DIR$/company_library/data_point.py" />
+        <option value="$PROJECT_DIR$/data_point.py" />
+        <option value="$PROJECT_DIR$/company.py" />
+>>>>>>> 1d924502a0a6dabc4973d827488fb556d919be2f
       </list>
     </option>
   </component>
@@ -130,6 +181,11 @@
             <path>
               <item name="PriceVolumeAnalysis" type="b2602c69:ProjectViewProjectNode" />
               <item name="PriceVolumeAnalysis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PriceVolumeAnalysis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PriceVolumeAnalysis" type="462c0819:PsiDirectoryNode" />
+              <item name="company_library" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -154,7 +210,43 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.company">
+    <configuration name="company" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PriceVolumeAnalysis" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/company.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="data_point" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="PriceVolumeAnalysis" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data_point.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="load_files" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PriceVolumeAnalysis" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -173,9 +265,21 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <list size="3">
+      <item index="0" class="java.lang.String" itemvalue="Python.load_files" />
+      <item index="1" class="java.lang.String" itemvalue="Python.data_point" />
+      <item index="2" class="java.lang.String" itemvalue="Python.company" />
+    </list>
     <recent_temporary>
+<<<<<<< HEAD
       <list>
         <item itemvalue="Python.load_files" />
+=======
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Python.company" />
+        <item index="1" class="java.lang.String" itemvalue="Python.data_point" />
+        <item index="2" class="java.lang.String" itemvalue="Python.load_files" />
+>>>>>>> 1d924502a0a6dabc4973d827488fb556d919be2f
       </list>
     </recent_temporary>
   </component>
@@ -279,22 +383,50 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/company_library/GE.csv">
+=======
+    <entry file="file://$USER_HOME$/PycharmProjects/CSC148/venv/lib/python3.6/site-packages/pandas_datareader/fred.py">
+>>>>>>> 1d924502a0a6dabc4973d827488fb556d919be2f
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="0" column="41" lean-forward="true" selection-start-line="0" selection-start-column="41" selection-end-line="0" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/load_files.py">
+    <entry file="file://$PROJECT_DIR$/data_point.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="270">
           <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
 >>>>>>> e489e86a41382a0274fd8800f1790635eeeea7a5
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
+=======
+        <state relative-caret-position="150">
+          <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/load_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/company.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+          <folding />
+>>>>>>> 1d924502a0a6dabc4973d827488fb556d919be2f
         </state>
       </provider>
     </entry>
