@@ -1,0 +1,33 @@
+Metadata-Version: 2.0
+Name: pandas-datapackage-reader
+Version: 0.8.0
+Summary: Pandas Data Package Reader
+Home-page: https://github.com/rgieseke/pandas-datapackage-reader
+Author: Robert Gieseke
+Author-email: robert.gieseke@pik-potsdam.de
+License: BSD
+Keywords: data-package
+Platform: any
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Requires-Dist: pandas
+Requires-Dist: requests
+
+
+pandas-datapackage-reader
+-------------------------
+
+Easy loading of tabular data from Data Packages into Pandas DataFrames.
+
+Install using ::
+
+    pip install pandas-datapackage-reader
+
+See README.md and repository for details: <https://github.com/rgieseke/pandas-datapackage-reader>
+
+
