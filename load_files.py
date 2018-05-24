@@ -1,7 +1,8 @@
 import datetime as dt
 import pandas_datareader.data as web
 import csv
-def update_data(id: str, source='iex'):
+
+def update_data(id: str, source='robinhood'):
     """
     Update the company_library with given Company:ID
     If source parameter is empty, source will default to iex
@@ -13,7 +14,11 @@ def update_data(id: str, source='iex'):
     temp = 'company_library/' + id + ".csv"
     df.to_csv(temp)
 
-def generate_company_library():
+def generate_company_list():
+    """
+    Return a list of all public companies
+    :return a list
+    """
     path = 'companylist.csv'
     companyids = []
     with open(path, 'r') as csv_file:
@@ -21,18 +26,28 @@ def generate_company_library():
         for line in csv_reader:
             companyids.append(line[0])
     companyids.pop(0)
-    companyids = companyids[3310:]
-    print(companyids)
+    return companyids
+
+def generate_company_library():
+    """
+    Takes all public companies and generates .csv file
+    """
+
+    companyids = generate_company_list()
+    counter = 0
+    companyids = companyids[counter:]
+
     for id in companyids:
+        print(counter,"generating", id + ".csv")
         try:
             update_data(id)
         except:
             pass
-
+        counter += 1
 
 if __name__ == "__main__":
     """
-    Testing the code
+    Updates Company library
     """
     generate_company_library()
 
