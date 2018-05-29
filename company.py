@@ -1,5 +1,6 @@
 from load_files import update_data
 import csv
+
 class Company:
     """
     Represents a Company
@@ -12,8 +13,6 @@ class Company:
         self.dates = []
         self.volumes = []
         self.prices = []
-
-
 
         try:
             self.populate_storage()
@@ -54,13 +53,13 @@ class Company:
         end: end_date int
         category: price or volume
         """
+
         if start not in self.dates or end not in self.dates:
             raise IndexError
 
         start_index = self.dates.index(start)
         end_index = self.dates.index(end)
-        print(start_index,end_index)
-        print(self.volumes[start_index])
+
         if category == "PRICE":
             return (self.prices[start_index] + ((self.prices[end_index]-self.prices[start_index])/ (end_index-start_index)))/self.prices[start_index] - 1
         else:
@@ -70,8 +69,8 @@ class Company:
         return self.id
 
 if __name__ == "__main__":
-    start_date = 20170523
+    start_date = 20170524
     end_date  = 20180522
 
-    dcar = Company("DCAR")
-    dcar.get_average_rate(start_date,end_date,"VOLUME")
+
+    gs = Company("GS")
