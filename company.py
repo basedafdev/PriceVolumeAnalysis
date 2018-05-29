@@ -72,5 +72,5 @@ if __name__ == "__main__":
     start_date = 20170524
     end_date  = 20180522
 
-
+    att = Company("T")
     gs = Company("GS")
