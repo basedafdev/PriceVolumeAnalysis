@@ -154,6 +154,5 @@ if __name__ == "__main__":
     all_companies = Directory()
     start_date = 20170526
     end_date = 20180525
-    wb = Company("WB")
     print(all_companies.get_zone(wb,start_date,end_date))
     
