@@ -34,7 +34,7 @@ def generate_company_library():
     """
 
     companyids = generate_company_list()
-    counter = 0
+    counter = 3380
     companyids = companyids[counter:]
 
     for id in companyids:

@@ -4,8 +4,10 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from load_files import generate_company_list
-from PyQt5.QtWidgets import QApplication, QMainWindow,QMessageBox, QPushButton, QLineEdit, QLabel, QVBoxLayout, QListWidget, QStatusBar
+from PyQt5.QtWidgets import QApplication,QWidget, QMainWindow,QMessageBox, QPushButton, QLineEdit, QLabel, QVBoxLayout, QListWidget, QStatusBar
+
 from directory import Directory
+from company import Company
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -20,6 +22,7 @@ class MainWindow(QMainWindow):
         self.initUI()
         self.statusBar = QStatusBar()
         self.setStatusBar(self.statusBar)
+
     def initUI(self):
         #Initialization of User interface
 
@@ -51,6 +54,7 @@ class MainWindow(QMainWindow):
         self.listWidget = QListWidget(self)
 
         self.listWidget.setGeometry(20,90,50,200)
+        self.listWidget.itemClicked.connect(self.ticket_pull_up)
 
         # connect button to function on_click
         self.button.clicked.connect(self.addtolist)
@@ -67,8 +71,57 @@ class MainWindow(QMainWindow):
 
 
 
+    def ticket_pull_up(self,item):
+        """
+        Pulls up ticket of information when clicked
+        """
+        temp_company = Company(str(item.text()))
+        end_date = 20180529
+        year = self.directory.get_zone(temp_company,20170530,end_date) #1 year
+        sixmonth = self.directory.get_zone(temp_company,20180102,end_date) #6 months
+        threemonth = self.directory.get_zone(temp_company,20180301,end_date) #3 months
+        onemonth = self.directory.get_zone(temp_company,20180501,end_date) # 1 month
+        fiveday = self.directory.get_zone(temp_company,20180521,end_date) # 5 days
+        #### GENERATES ONE YEAR ####
+        ticket_window = new_window(self)
+        ticket_window.year = QLabel(ticket_window)
+        ticket_window.year.setText("6-MONTHS: " + " || ZONE: " + str(year[1]) + " ||  CHANGE IN PRICE: " + \
+                                       str(round(year[3], 4)) + " || CHANGE IN VOLUME: " + str(
+            round(year[4], 4)))
+        ticket_window.year.setFont(QtGui.QFont("Times", 10, QtGui.QFont.Bold))
+        ticket_window.year.setGeometry(10,0,400,30)
 
+        #### GENERATES SIX MONTH ####
+        ticket_window.sixmonth = QLabel(ticket_window)
+        ticket_window.sixmonth.setText("6-MONTHS: " + " || ZONE: " +str(sixmonth[1]) + " ||  CHANGE IN PRICE: " +\
+                                       str(round(sixmonth[3],4)) + " || CHANGE IN VOLUME: " + str(round(sixmonth[4],4)))
+        ticket_window.sixmonth.setFont(QtGui.QFont("Times", 10, QtGui.QFont.Bold))
+        ticket_window.sixmonth.setGeometry(10,30,400,30)
 
+        #### GENERATES THREEMONTH MONTH ####
+        ticket_window.threemonth = QLabel(ticket_window)
+        ticket_window.threemonth.setText("3-MONTHS: " + " || ZONE: " + str(threemonth[1]) + " ||  CHANGE IN PRICE: " + \
+                                       str(round(threemonth[3], 4)) + " || CHANGE IN VOLUME: " + str(
+            round(threemonth[4], 4)))
+        ticket_window.threemonth.setFont(QtGui.QFont("Times", 10, QtGui.QFont.Bold))
+        ticket_window.threemonth.setGeometry(10, 60, 400,30)
+
+        #### ONE MONTH ####
+        ticket_window.onemonth = QLabel(ticket_window)
+        ticket_window.onemonth.setText("1-MONTHS: " + " || ZONE: " + str(onemonth[1]) + " ||  CHANGE IN PRICE: " + \
+                                         str(round(onemonth[3], 4)) + " || CHANGE IN VOLUME: " + str(
+            round(onemonth[4], 4)))
+        ticket_window.onemonth.setGeometry(10, 90, 400,30)
+        ticket_window.onemonth.setFont(QtGui.QFont("Times", 10, QtGui.QFont.Bold))
+        #### FIVE DAY ####
+        ticket_window.fiveday = QLabel(ticket_window)
+        ticket_window.onemonth.setText("5-DAY: " + " || ZONE: " + str(fiveday[1]) + " ||  CHANGE IN PRICE: " + \
+                                       str(round(fiveday[3], 4)) + " || CHANGE IN VOLUME: " + str(
+            round(fiveday[4], 4)))
+        ticket_window.fiveday.setGeometry(10, 120,400,30)
+        ticket_window.fiveday.setFont(QtGui.QFont("Times", 10, QtGui.QFont.Bold))
+        ticket_window.setGeometry(0,0,500,500)
+        ticket_window.show()
 
     def addtolist(self):
         """
@@ -89,7 +142,9 @@ class MainWindow(QMainWindow):
 
         self.textbox.setText("")
 
-
+class new_window(QMainWindow):
+    def __init__(self, parent=None):
+        super(new_window, self).__init__(parent)
 
 if __name__ == "__main__":
     App = QApplication(sys.argv)
