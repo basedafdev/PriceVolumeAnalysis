@@ -8,7 +8,7 @@ def update_data(id: str, source='robinhood'):
     If source parameter is empty, source will default to iex
     """
 
-    start = dt.datetime(2017,3,2)
+    start = dt.datetime(2010,3,2)
     end = dt.datetime(dt.datetime.today().date().year,dt.datetime.today().date().month,dt.datetime.today().date().day-1)
     df = web.DataReader(id,source,start,end)
     temp = 'company_library/' + id + ".csv"
@@ -34,7 +34,7 @@ def generate_company_library():
     """
 
     companyids = generate_company_list()
-    counter = 3300
+    counter = 0
     companyids = companyids[counter:]
 
     for id in companyids:

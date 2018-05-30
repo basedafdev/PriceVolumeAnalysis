@@ -132,7 +132,7 @@ class Directory:
             zone = 'C'
         elif price_change < 0 and volume_change > 0:
             zone = 'D'
-        return (zone,price_change*volume_change,price_change,volume_change)
+        return (company,zone,price_change*volume_change,price_change,volume_change)
 
 def selectionSort(alist,company):
     # Modified version of selection sort such that it supports the Company Object
@@ -154,5 +154,3 @@ if __name__ == "__main__":
     all_companies = Directory()
     start_date = 20170526
     end_date = 20180525
-    print(all_companies.get_zone(wb,start_date,end_date))
-    
