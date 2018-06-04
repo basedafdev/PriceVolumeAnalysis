@@ -1,13 +1,14 @@
 # Price-Volume Equity Analysis
 **Equity analysis tool that forecasts price reversals**
 
-~~Developer: Thomas Liu~~ \
-~~Equiity-Analyst: Jeff Harris~~ \
-~~Credit: Ashwin, Sanjana, Avni, Daniel, Tarun~~\
-~~In association with:~~
+**Developer**: Thomas Liu \
+**Equiity-Analyst**: Jeff Harris \
+**Credit**: Ashwin, Sanjana, Avni, Daniel, Tarun\
+**In association with**:
 
 **KINETIX TRADING SOLUTIONS**
-#Breakdown
+
+Breakdown:
 
 1.  company_library
     * directory of all the top companies and its historical data. In .csv format

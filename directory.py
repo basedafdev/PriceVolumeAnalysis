@@ -165,5 +165,5 @@ if __name__ == "__main__":
     x = Company("GOOG")
     subject1 = "Top 10 Potential Reversals (based on " + str(x.dates[len(x.dates)-1]) + ") data"
     subject2 = "Top 10 Long-Term Stocks (based on " + str(x.dates[len(x.dates)-1]) + ") data"
-        
+
     sendmail(s,subject1,email_list2)
