@@ -9,7 +9,7 @@ def update_data(id: str, source='robinhood'):
     """
 
     start = dt.datetime(2010,3,2)
-    end = dt.datetime(dt.datetime.today().date().year,dt.datetime.today().date().month,dt.datetime.today().date().day-1)
+    end = dt.datetime(dt.datetime.today().date().year,dt.datetime.today().date().month,dt.datetime.today().date().day)
     df = web.DataReader(id,source,start,end)
     temp = 'company_library/' + id + ".csv"
     df.to_csv(temp)
@@ -34,7 +34,7 @@ def generate_company_library():
     """
 
     companyids = generate_company_list()
-    counter = 3380
+    counter = 0
     companyids = companyids[counter:]
 
     for id in companyids:

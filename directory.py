@@ -1,5 +1,7 @@
 from load_files import generate_company_list
 from company import Company
+import smtplib
+
 """
 Represents a company directory
 """
@@ -20,13 +22,14 @@ class Directory:
         self.zoneD = []
 
         temp_list = generate_company_list()
+        temp_list = list(set(temp_list))
         for id in temp_list:
             company_name = Company(id)
             if company_name.dates != []:
                 self.companies.append(company_name)
                 self.companystrings.append(id)
 
-    def generate_zoneA(self,start,end,threshold):
+    def generate_zoneA(self,start,end):
         """
         Return a list of all the increasing companies in zoneA
         """
@@ -39,17 +42,64 @@ class Directory:
                 if top > 0 and bottom > 0:
                     temp.append(top*bottom)
                     company.append(id)
-
-
             except:
 
                 print(id,"volume is zero at the given time")
 
         selectionSort(temp,company)
-        for i in temp:
-            print(i)
         self.zoneA = company
-        return (company,temp)
+        return (company[-10:],temp[-10:])
+    def generate_top_longterm(self):
+        """
+
+        """
+        temp = []
+        company = []
+        for id in self.companies:
+            try:
+                start = id.dates[0]
+                end = id.dates[len(id.dates)-1]
+                top = id.get_average_rate(start, end, "PRICE")
+                bottom = id.get_average_rate(start, end, "VOLUME")
+                top1 = id.getavg(start, end, "PRICE")
+                bot1 = id.getavg(start, end, "VOLUME")
+                if top > 0 and bottom > 0:
+                    temp.append(top1*bot1)
+                    company.append(id)
+            except:
+                pass
+
+        selectionSort(temp,company)
+        return (company[-20:],temp[-20:])
+    def get_reversals(self):
+        pass
+    def generate_top_shortterm(self):
+        """
+
+        """
+        temp = []
+        companies = []
+
+        for id in self.companies:
+
+
+            try:
+                zone_longterm = self.get_zone(id, id.dates[0], id.dates[len(id.dates) - 1])[1]
+
+                time_frame = id.dates[-5:]
+
+                start_date = time_frame[0]
+                end_date = time_frame[1]
+                top = id.get_average_rate(start_date, end_date, "PRICE")
+                bot = id.get_average_rate(start_date, end_date, "VOLUME")
+                if top > 0 and (bot > 0  or bot < 0) and zone_longterm == "A":
+
+                    companies.append(id)
+                    temp.appnd(abs(top/bot))
+            except:
+                pass
+        selectionSort(temp,companies)
+        return companies[-5:]
 
     def generate_zoneB(self,start,end,threshold):
         """
@@ -58,6 +108,7 @@ class Directory:
         temp = []
         company = []
         for id in self.companies:
+
             try:
                 top = id.get_average_rate(start,end,"PRICE")
                 bottom = id.get_average_rate(start,end,"VOLUME")
@@ -149,8 +200,28 @@ def selectionSort(alist,company):
        temp1 = company[fillslot]
        company[fillslot] = company[positionOfMax]
        company[positionOfMax] = temp1
-
+def sendmail(s,email):
+    x = Company("GOOG")
+    SUBJECT = "TOP 10 STOCKS TO BUY (based on " + str(x.dates[len(x.dates)-1]) + ")"
+    message = 'Subject: {}\n\n{}'.format(SUBJECT, s)
+    mail = smtplib.SMTP('smtp.gmail.com', 587)
+    mail.ehlo()
+    mail.starttls()
+    mail.login('applicationtestemail123@gmail.com', 'langlaile@1')
+    mail.sendmail('fromemail', email, message)
+    mail.close()
 if __name__ == "__main__":
+
     all_companies = Directory()
-    start_date = 20170526
-    end_date = 20180525
+    print("________________")
+    s = ""
+
+    out = all_companies.generate_top_longterm()[0]
+    for i in range(len(out)):
+        s += str(20-i) + ") " + str(out[i]) + '\n'
+    print(s)
+    email_list = ["tommyliu9@gmail.com","svj5271@gmail.com","ashwin23suresh@gmail.com",
+                  "jjh235@scarletmail.rutgers.edu","avni.mandhania@gmail.com","adamwstephens@gmail.com",
+                  "djdmello15@gmail.com"]
+    for i in email_list:
+        sendmail(s,i)

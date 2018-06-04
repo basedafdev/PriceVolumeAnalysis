@@ -36,9 +36,12 @@ class Company:
                         temp_dates = temp_date.split("-")
                         temp_date = temp_dates[0] + temp_dates[1] + temp_dates[2]
                         temp_date = int(temp_date)
-                        self.dates.append(temp_date)
-                        self.volumes.append(float(temp_volume))
-                        self.prices.append(float(temp_price))
+
+
+                        if float(temp_volume) != 0:
+                            self.dates.append(temp_date)
+                            self.volumes.append(float(temp_volume))
+                            self.prices.append(float(temp_price))
                     except:
                         #removes top element
                         pass
@@ -64,6 +67,40 @@ class Company:
             return (self.prices[start_index] + ((self.prices[end_index]-self.prices[start_index])/ (end_index-start_index)))/self.prices[start_index] - 1
         else:
             return (self.volumes[start_index] + ((self.volumes[end_index]-self.volumes[start_index])/ (end_index-start_index)))/self.volumes[start_index] - 1
+    def getlongterm(self):
+        id = self
+        start_volume = id.getavg(id.dates[0], id.dates[round(len(id.dates) / 2)], "VOLUME")
+        start_price = id.getavg(id.dates[0], id.dates[round(len(id.dates) / 2)], "PRICE")
+        end_volume = id.getavg(id.dates[round(len(id.dates) / 2)], id.dates[len(id.dates) - 1], "VOLUME")
+        end_price = id.getavg(id.dates[round(len(id.dates) / 2)], id.dates[len(id.dates) - 1], "PRICE")
+        change_volume = (end_volume - start_volume) / start_volume
+        change_price = (end_price - start_price) / start_price
+
+        print(change_volume, change_price)
+        return((change_volume,change_price))
+
+    def getavg(self, start,end, category):
+        """
+        RETURN THE AVG VOLUME/PRICE
+        """
+        if start not in self.dates or end not in self.dates:
+            raise IndexError
+
+        start_index = self.dates.index(start)
+        end_index = self.dates.index(end)
+        if category == "PRICE":
+            sum = 0
+            for i in range(start_index,end_index+1):
+                sum += self.prices[i]
+            sum = sum/(end_index-start_index)
+            return sum
+        else:
+            sum = 0
+            for i in range(start_index,end_index+1):
+                sum += self.volumes[i]
+            sum = sum/(end_index-start_index)
+            return sum
+
 
     def __str__(self):
         return self.id
@@ -72,5 +109,5 @@ if __name__ == "__main__":
     start_date = 20170524
     end_date  = 20180522
 
-    att = Company("T")
-    gs = Company("GS")
+    x = Company("SIEB")
+    print(x.getlongterm())
