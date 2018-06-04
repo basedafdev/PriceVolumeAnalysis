@@ -76,11 +76,11 @@ class MainWindow(QMainWindow):
         """
         temp_company = Company(str(item.text()))
         end_date = 20180529
-        year = self.directory.get_zone(temp_company,20170531,end_date) #1 year
+        year = self.directory.get_zone(temp_company,20180102,end_date) #1 year
         sixmonth = self.directory.get_zone(temp_company,20180102,end_date) #6 months
-        threemonth = self.directory.get_zone(temp_company,20180301,end_date) #3 months
-        onemonth = self.directory.get_zone(temp_company,20180501,end_date) # 1 month
-        fiveday = self.directory.get_zone(temp_company,20180521,end_date) # 5 days
+        threemonth = self.directory.get_zone(temp_company,20180102,end_date) #3 months
+        onemonth = self.directory.get_zone(temp_company,20180102,end_date) # 1 month
+        fiveday = self.directory.get_zone(temp_company,20180102,end_date) # 5 days
         #### GENERATES ONE YEAR ####
         ticket_window = new_window(self)
         ticket_window.year = QLabel(ticket_window)

@@ -49,7 +49,7 @@ class Company:
             print(self.id, "ommitted from update (id not found in company_library folder)")
 
 
-    def get_average_rate(self, start, end, category):
+    def get_average_rate(self, start: int, end: int, category: str):
         """
         Return the average rate of change for a specific time-range
         start: start_date int
@@ -64,22 +64,15 @@ class Company:
         end_index = self.dates.index(end)
 
         if category == "PRICE":
-            return (self.prices[start_index] + ((self.prices[end_index]-self.prices[start_index])/ (end_index-start_index)))/self.prices[start_index] - 1
+            return (self.prices[start_index] +\
+                    ((self.prices[end_index]-self.prices[start_index])/ \
+                    (end_index-start_index)))/self.prices[start_index] - 1
         else:
-            return (self.volumes[start_index] + ((self.volumes[end_index]-self.volumes[start_index])/ (end_index-start_index)))/self.volumes[start_index] - 1
-    def getlongterm(self):
-        id = self
-        start_volume = id.getavg(id.dates[0], id.dates[round(len(id.dates) / 2)], "VOLUME")
-        start_price = id.getavg(id.dates[0], id.dates[round(len(id.dates) / 2)], "PRICE")
-        end_volume = id.getavg(id.dates[round(len(id.dates) / 2)], id.dates[len(id.dates) - 1], "VOLUME")
-        end_price = id.getavg(id.dates[round(len(id.dates) / 2)], id.dates[len(id.dates) - 1], "PRICE")
-        change_volume = (end_volume - start_volume) / start_volume
-        change_price = (end_price - start_price) / start_price
+            return (self.volumes[start_index] + \
+                    ((self.volumes[end_index]-self.volumes[start_index])/\
+                    (end_index-start_index)))/self.volumes[start_index] - 1
 
-        print(change_volume, change_price)
-        return((change_volume,change_price))
-
-    def getavg(self, start,end, category):
+    def getavg(self, start: int, end: int, category: str):
         """
         RETURN THE AVG VOLUME/PRICE
         """
@@ -103,6 +96,9 @@ class Company:
 
 
     def __str__(self):
+        """
+        Return the ID of the company
+        """
         return self.id
 
 if __name__ == "__main__":

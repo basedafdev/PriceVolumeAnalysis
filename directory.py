@@ -1,7 +1,6 @@
 from load_files import generate_company_list
 from company import Company
 import smtplib
-
 """
 Represents a company directory
 """
@@ -31,7 +30,7 @@ class Directory:
 
     def generate_zoneA(self,start,end):
         """
-        Return a list of all the increasing companies in zoneA
+        Return a list of all the increasing companies in zone A
         """
         temp = []
         company = []
@@ -51,6 +50,7 @@ class Directory:
         return (company[-10:],temp[-10:])
     def generate_top_longterm(self):
         """
+        Returns the best long-term stocks to invest in
 
         """
         temp = []
@@ -72,74 +72,28 @@ class Directory:
         selectionSort(temp,company)
         return (company[-20:],temp[-20:])
 
-    def get_reversals(self):
-        pass
-    def generate_zoneB(self,start,end,threshold):
+    def get_reversals_up(self):
         """
-        Return a list of all the increasing companies in zoneB
-        """
-        temp = []
-        company = []
-        for id in self.companies:
-
-            try:
-                top = id.get_average_rate(start,end,"PRICE")
-                bottom = id.get_average_rate(start,end,"VOLUME")
-                if top > 0 and bottom < 0:
-                    temp.append(top*bottom)
-                    company.append(id)
-
-
-            except:
-                print(id, "volume is zero at the given time")
-
-        selectionSort(temp,company)
-        self.zoneB = company
-        return (company,temp)
-
-    def generate_zoneC(self,start,end,threshold):
-        """
-        Return a list of all the increasing companies in zoneC
+        Returns a list of potential up-ward reversals
         """
         temp = []
         company = []
         for id in self.companies:
             try:
-                top = id.get_average_rate(start,end,"PRICE")
-                bottom = id.get_average_rate(start,end,"VOLUME")
-                if top < 0 and bottom < 0:
-                    temp.append(top*bottom)
+                start = id.dates[0]
+                end = id.dates[len(id.dates) - 1]
+                price_change = id.get_average_rate(id.dates[len(id.dates) - 2], id.dates[len(id.dates) - 1], "PRICE")
+                historical_volume = id.getavg(start, end, "PRICE")
+                today_price = id.prices[len(id.prices)-1]
+                today_volume = id.volumes[len(id.volumes)-1]
+                if price_change > 0 and historical_volume > 2:
+                    temp.append(today_volume/historical_volume)
                     company.append(id)
-
-
             except:
-                print(id, "volume is zero at the given time")
+                pass
+        selectionSort(temp, company)
+        return (company[-20:], temp[-20:])
 
-        selectionSort(temp,company)
-        self.zoneC = company
-        return (company,temp)
-
-    def generate_zoneD(self,start,end,threshold):
-        """
-        Return a list of all the increasing companies in zoneD
-        """
-        temp = []
-        company = []
-        for id in self.companies:
-            try:
-                top = id.get_average_rate(start,end,"PRICE")
-                bottom = id.get_average_rate(start,end,"VOLUME")
-                if top < 0 and bottom > 0:
-                    temp.append(top*bottom)
-                    company.append(id)
-
-            except:
-                print(id, "volume is zero at the given time")
-
-        selectionSort(temp,company)
-
-        self.zoneD = company
-        return (company,temp)
 
     def get_zone(self, company: "Company", start_date: int, end_date: int):
         """
@@ -174,9 +128,14 @@ def selectionSort(alist,company):
        company[fillslot] = company[positionOfMax]
        company[positionOfMax] = temp1
 
-def sendmail(s,email_list):
-    x = Company("GOOG")
-    SUBJECT = "TOP 10 STOCKS TO BUY (based on " + str(x.dates[len(x.dates)-1]) + ")"
+def sendmail(s,subject,email_list):
+    """
+    Connects the built in email python library
+    and sends an email to given emails in the email_list
+
+    """
+
+    SUBJECT = subject
     message = 'Subject: {}\n\n{}'.format(SUBJECT, s)
     mail = smtplib.SMTP('smtp.gmail.com', 587)
     mail.ehlo()
@@ -187,16 +146,24 @@ def sendmail(s,email_list):
     mail.close()
 
 if __name__ == "__main__":
+    """
+    MAIN METHOD
+    """
 
     all_companies = Directory()
     print("________________")
     s = ""
 
-    out = all_companies.generate_top_longterm()[0]
+    out = all_companies.get_reversals_up()[0]
     for i in range(len(out)):
         s += str(20-i) + ") " + str(out[i]) + '\n'
     print(s)
     email_list = ["tommyliu9@gmail.com","svj5271@gmail.com","ashwin23suresh@gmail.com",
                   "jjh235@scarletmail.rutgers.edu","avni.mandhania@gmail.com","adamwstephens@gmail.com",
                   "djdmello15@gmail.com"]
-    sendmail(s,email_list)
+    email_list2 = ["tommyliu@gmail.com", "jjh235@scarletmail.rutgers.edu","tarun.mandhania@kinetixtt.com>"]
+    x = Company("GOOG")
+    subject1 = "Top 10 Potential Reversals (based on " + str(x.dates[len(x.dates)-1]) + ") data"
+    subject2 = "Top 10 Long-Term Stocks (based on " + str(x.dates[len(x.dates)-1]) + ") data"
+        
+    sendmail(s,subject1,email_list2)
