@@ -71,36 +71,9 @@ class Directory:
 
         selectionSort(temp,company)
         return (company[-20:],temp[-20:])
+
     def get_reversals(self):
         pass
-    def generate_top_shortterm(self):
-        """
-
-        """
-        temp = []
-        companies = []
-
-        for id in self.companies:
-
-
-            try:
-                zone_longterm = self.get_zone(id, id.dates[0], id.dates[len(id.dates) - 1])[1]
-
-                time_frame = id.dates[-5:]
-
-                start_date = time_frame[0]
-                end_date = time_frame[1]
-                top = id.get_average_rate(start_date, end_date, "PRICE")
-                bot = id.get_average_rate(start_date, end_date, "VOLUME")
-                if top > 0 and (bot > 0  or bot < 0) and zone_longterm == "A":
-
-                    companies.append(id)
-                    temp.appnd(abs(top/bot))
-            except:
-                pass
-        selectionSort(temp,companies)
-        return companies[-5:]
-
     def generate_zoneB(self,start,end,threshold):
         """
         Return a list of all the increasing companies in zoneB
@@ -200,7 +173,8 @@ def selectionSort(alist,company):
        temp1 = company[fillslot]
        company[fillslot] = company[positionOfMax]
        company[positionOfMax] = temp1
-def sendmail(s,email):
+
+def sendmail(s,email_list):
     x = Company("GOOG")
     SUBJECT = "TOP 10 STOCKS TO BUY (based on " + str(x.dates[len(x.dates)-1]) + ")"
     message = 'Subject: {}\n\n{}'.format(SUBJECT, s)
@@ -208,8 +182,10 @@ def sendmail(s,email):
     mail.ehlo()
     mail.starttls()
     mail.login('applicationtestemail123@gmail.com', 'langlaile@1')
-    mail.sendmail('fromemail', email, message)
+    for email in email_list:
+        mail.sendmail('fromemail', email, message)
     mail.close()
+
 if __name__ == "__main__":
 
     all_companies = Directory()
@@ -223,5 +199,4 @@ if __name__ == "__main__":
     email_list = ["tommyliu9@gmail.com","svj5271@gmail.com","ashwin23suresh@gmail.com",
                   "jjh235@scarletmail.rutgers.edu","avni.mandhania@gmail.com","adamwstephens@gmail.com",
                   "djdmello15@gmail.com"]
-    for i in email_list:
-        sendmail(s,i)
+    sendmail(s,email_list)
