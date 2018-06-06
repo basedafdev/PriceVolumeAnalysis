@@ -48,6 +48,7 @@ class Directory:
         selectionSort(temp,company)
         self.zoneA = company
         return (company[-10:],temp[-10:])
+
     def generate_top_longterm(self):
         """
         Returns the best long-term stocks to invest in
@@ -72,28 +73,51 @@ class Directory:
         selectionSort(temp,company)
         return (company[-20:],temp[-20:])
 
-    def get_reversals_up(self):
+    def get_reversals_up(self, date):
         """
         Returns a list of potential up-ward reversals
+        1) If the price from yesterday rose today
+        2) if the toady's price is > 2
+        3) if today's volume is greater than the historical volume
+        4) price_change * today's volume / historical volume
         """
         temp = []
         company = []
         for id in self.companies:
             try:
-                start = id.dates[0]
-                end = id.dates[len(id.dates) - 1]
-                price_change = id.get_average_rate(id.dates[len(id.dates) - 2], id.dates[len(id.dates) - 1], "PRICE")
-                historical_volume = id.getavg(start, end, "PRICE")
-                today_price = id.prices[len(id.prices)-1]
-                today_volume = id.volumes[len(id.volumes)-1]
-                if price_change > 0 and historical_volume > 2:
-                    temp.append(today_volume/historical_volume)
+                day_of_trade = id.dates.index(date)+1
+                day_before = day_of_trade-1
+                price_change = id.get_average_rate(id.dates[day_before-1], id.dates[day_before] , "PRICE")
+
+                historical_volume = id.getavg(id.dates[day_before-22], id.dates[day_before-1], "VOLUME")
+
+                today_price = id.prices[day_before]
+                today_volume = id.volumes[day_before]
+                if 0 < price_change < 0.05 and float(today_price) > 2 and historical_volume > 100000:
+                    temp.append((today_volume-historical_volume)/historical_volume)
                     company.append(id)
             except:
-                pass
+                pass                                        
         selectionSort(temp, company)
-        return (company[-20:], temp[-20:])
+        return (company[-10:], temp[-10:])
 
+    def short_sell(self):
+        """
+        Returns a list of potential down-ward reversals. Perfect for them short sellers
+        """
+        temp = []
+        company =[]
+        for id in self.companies:
+            try:
+                start = id.dates[0]
+                end = id.dates[len(id.dates)-1]
+                price_change = id.get_average_rate(id.dates[len(id.dates)-1], id.dates[len(id.dates)-1], "PRICE")
+                historical_volume = id.getavg
+            except:
+                pass
+
+
+        
 
     def get_zone(self, company: "Company", start_date: int, end_date: int):
         """
@@ -148,22 +172,24 @@ def sendmail(s,subject,email_list):
 if __name__ == "__main__":
     """
     MAIN METHOD
+    PASS IN A DATE TO RETURN THE TOP 10 STOCKS TO INVEST IN
+    THAT DAY    
     """
 
     all_companies = Directory()
     print("________________")
     s = ""
-
-    out = all_companies.get_reversals_up()[0]
-    for i in range(len(out)):
-        s += str(20-i) + ") " + str(out[i]) + '\n'
+    date = int(input("Enter the date you want to know: "))
+    out = all_companies.get_reversals_up(date)
+    for i in range(len(out[0])):
+        s += str(10-i) + ") " + str(out[0][i]) + " " + str(out[1][i]) + '\n'
     print(s)
     email_list = ["tommyliu9@gmail.com","svj5271@gmail.com","ashwin23suresh@gmail.com",
                   "jjh235@scarletmail.rutgers.edu","avni.mandhania@gmail.com","adamwstephens@gmail.com",
                   "djdmello15@gmail.com"]
-    email_list2 = ["tommyliu@gmail.com", "jjh235@scarletmail.rutgers.edu","tarun.mandhania@kinetixtt.com>"]
+    email_list2 = ["tommyliu@gmail.com", "jjh235@scarletmail.rutgers.edu"]
     x = Company("GOOG")
-    subject1 = "Top 10 Potential Reversals (based on " + str(x.dates[len(x.dates)-1]) + ") data"
-    subject2 = "Top 10 Long-Term Stocks (based on " + str(x.dates[len(x.dates)-1]) + ") data"
+    subject1 = "Top 10 Potential Reversals for " + str(date)
+    subject2 = "Top 10 Long-Term Stocks for " + str(date)
 
-    sendmail(s,subject1,email_list2)
+    sendmail(s,subject1,email_list2+email_list)

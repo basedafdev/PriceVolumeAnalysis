@@ -14,11 +14,7 @@ class Company:
         self.volumes = []
         self.prices = []
 
-        try:
-            self.populate_storage()
-        except:
-            update_data(id)
-            self.populate_storage()
+        self.populate_storage()
 
     def populate_storage(self):
         """
@@ -38,10 +34,10 @@ class Company:
                         temp_date = int(temp_date)
 
 
-                        if float(temp_volume) != 0:
-                            self.dates.append(temp_date)
-                            self.volumes.append(float(temp_volume))
-                            self.prices.append(float(temp_price))
+
+                        self.dates.append(temp_date)
+                        self.volumes.append(float(temp_volume))
+                        self.prices.append(float(temp_price))
                     except:
                         #removes top element
                         pass
@@ -104,6 +100,3 @@ class Company:
 if __name__ == "__main__":
     start_date = 20170524
     end_date  = 20180522
-
-    x = Company("SIEB")
-    print(x.getlongterm())
