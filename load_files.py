@@ -48,6 +48,7 @@ def generate_company_library():
 if __name__ == "__main__":
     """
     Updates Company library
-    """
+    """''
+    '[]='
     generate_company_library()
 

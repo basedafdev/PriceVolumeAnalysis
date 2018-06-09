@@ -1,7 +1,7 @@
 # Price-Volume Equity Analysis
 **Equity analysis tool that forecasts price reversals**
 
-**Developer**: Thomas Liu \
+**CTO**: Thomas Liu \
 **Equiity-Analyst**: Jeff Harris \
 **Credit**: Ashwin, Sanjana, Avni, Daniel, Tarun\
 **In association with**:

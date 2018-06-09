@@ -1,6 +1,7 @@
 from load_files import generate_company_list
 from company import Company
 import smtplib
+import csv
 """
 Represents a company directory
 """
@@ -14,19 +15,19 @@ class Directory:
         """
 
         self.companies = []
-        self.companystrings = []
+        self.invested_top_five = []
         self.zoneA = []
-        self.zoneB = []
-        self.zoneC = []
-        self.zoneD = []
+
 
         temp_list = generate_company_list()
         temp_list = list(set(temp_list))
         for id in temp_list:
-            company_name = Company(id)
-            if company_name.dates != []:
-                self.companies.append(company_name)
-                self.companystrings.append(id)
+            try:
+                company_name = Company(id)
+                if company_name.dates != []:
+                    self.companies.append(company_name)
+            except:
+                pass
 
     def generate_zoneA(self,start,end):
         """
@@ -47,7 +48,7 @@ class Directory:
 
         selectionSort(temp,company)
         self.zoneA = company
-        return (company[-10:],temp[-10:])
+        return (company[-5:],temp[-5:])
 
     def generate_top_longterm(self):
         """
@@ -71,7 +72,7 @@ class Directory:
                 pass
 
         selectionSort(temp,company)
-        return (company[-20:],temp[-20:])
+        return (company[-5:],temp[-5:])
 
     def get_reversals_up(self, date):
         """
@@ -83,43 +84,110 @@ class Directory:
         """
         temp = []
         company = []
+
         for id in self.companies:
             try:
-                day_of_trade = id.dates.index(date)+1
+
+                day_of_trade = 0
+                day_before = 0
+                if date not in id.dates:
+                    day_of_trade = len(id.dates)
+
+                else:
+                    day_of_trade = id.dates.index(date)
                 day_before = day_of_trade-1
                 price_change = id.get_average_rate(id.dates[day_before-1], id.dates[day_before] , "PRICE")
 
-                historical_volume = id.getavg(id.dates[day_before-22], id.dates[day_before-1], "VOLUME")
+                historical_volume = id.getavg(id.dates[day_before-15], id.dates[day_before-1], "VOLUME")
 
-                today_price = id.prices[day_before]
+                today_price = id.close_prices[day_before]
                 today_volume = id.volumes[day_before]
-                if 0 < price_change < 0.05 and float(today_price) > 2 and historical_volume > 100000:
+                yesterday_volume = id.volumes[day_before-2]
+                if 0 < price_change < 0.05 and 25 > float(today_price) > 2 and historical_volume > 1000000 and today_volume > yesterday_volume:
                     temp.append((today_volume-historical_volume)/historical_volume)
                     company.append(id)
             except:
-                pass                                        
-        selectionSort(temp, company)
-        return (company[-10:], temp[-10:])
+                pass
 
-    def short_sell(self):
+        selectionSort(temp, company)
+        return (company[-5:], temp[-5:])
+
+    def overall_gains(self, start1, end1):
         """
-        Returns a list of potential down-ward reversals. Perfect for them short sellers
+        Generates a csv document of all the potential gains from
+        a certain company
         """
-        temp = []
-        company =[]
-        for id in self.companies:
+
+        all_companies = []
+        company_names = []
+
+        dates = []
+        x = Company('GOOG')
+        start = x.dates.index(start1)
+        end = x.dates.index(end1)
+        for i in range(start,end+1):
+            for company in self.get_reversals_up(x.dates[i])[0]:
+
+                all_companies.append((company,x.dates[i]))
+
+        #Sort company alphabetically
+        for i in all_companies:
+            company_names.append(str(i[0]))
+        alpha_sort(company_names, all_companies)
+
+        sum = 0
+        for i in range(len(all_companies)):
             try:
-                start = id.dates[0]
-                end = id.dates[len(id.dates)-1]
-                price_change = id.get_average_rate(id.dates[len(id.dates)-1], id.dates[len(id.dates)-1], "PRICE")
-                historical_volume = id.getavg
+                b = all_companies[i][0].get_change_in_price(all_companies[i][1],end1)
+                if b < -.1:
+                    sum += -.1
+                    print(all_companies[i][0], "-.1",
+                          all_companies[i][1])
+                else:
+                    sum += b
+                    print(all_companies[i][0], all_companies[i][0].get_change_in_price(all_companies[i][1],end1), all_companies[i][1])
             except:
                 pass
 
+        print(sum)
+    def short_sell(self,date):
+        """
+        Returns a list of potential down-ward reversals. Perfect for them short sellers
+        1)
+        2)
+        3)
+        4)
+        """
 
-        
+        temp = []
+        company = []
 
-    def get_zone(self, company: "Company", start_date: int, end_date: int):
+        for id in self.companies:
+            try:
+
+                day_of_trade = 0
+                day_before = 0
+                if date not in id.dates:
+                    day_of_trade = len(id.dates)
+
+                else:
+                    day_of_trade = id.dates.index(date)
+                day_before = day_of_trade - 1
+                price_change = id.get_average_rate(id.dates[day_before - 1], id.dates[day_before], "PRICE")
+
+                historical_volume = id.getavg(id.dates[day_before - 22], id.dates[day_before - 1], "VOLUME")
+
+                today_price = id.close_prices[day_before]
+                today_volume = id.volumes[day_before]
+                if 0 < price_change < -0.05 and float(today_price) > 2 and historical_volume > 100000:
+                    temp.append((today_volume - historical_volume) / historical_volume)
+                    company.append(id)
+            except:
+                pass
+
+        selectionSort(temp, company)
+        return (company[-5:], temp[-5:])
+    def get_zone(self, company, start_date, end_date):
         """
         Returns a tuple of what zone, area of growth, change in volume, and change in price.
         """
@@ -152,6 +220,25 @@ def selectionSort(alist,company):
        company[fillslot] = company[positionOfMax]
        company[positionOfMax] = temp1
 
+def alpha_sort(alist,company):
+    """
+    SOrt thigns alphabetically
+    :param alist:
+    :param company:
+    :return:
+    """
+    for fillslot in range(len(alist) - 1, 0, -1):
+        positionOfMax = 0
+        for location in range(1, fillslot + 1):
+            if str(alist[location]) > str(alist[positionOfMax]):
+                positionOfMax = location
+
+        temp = alist[fillslot]
+        alist[fillslot] = alist[positionOfMax]
+        alist[positionOfMax] = temp
+        temp1 = company[fillslot]
+        company[fillslot] = company[positionOfMax]
+        company[positionOfMax] = temp1
 def sendmail(s,subject,email_list):
     """
     Connects the built in email python library
@@ -179,17 +266,22 @@ if __name__ == "__main__":
     all_companies = Directory()
     print("________________")
     s = ""
-    date = int(input("Enter the date you want to know: "))
-    out = all_companies.get_reversals_up(date)
-    for i in range(len(out[0])):
-        s += str(10-i) + ") " + str(out[0][i]) + " " + str(out[1][i]) + '\n'
-    print(s)
-    email_list = ["tommyliu9@gmail.com","svj5271@gmail.com","ashwin23suresh@gmail.com",
-                  "jjh235@scarletmail.rutgers.edu","avni.mandhania@gmail.com","adamwstephens@gmail.com",
-                  "djdmello15@gmail.com"]
-    email_list2 = ["tommyliu@gmail.com", "jjh235@scarletmail.rutgers.edu"]
-    x = Company("GOOG")
-    subject1 = "Top 10 Potential Reversals for " + str(date)
-    subject2 = "Top 10 Long-Term Stocks for " + str(date)
+    date = ""
+    while date != 0:
+        date = int(input("Enter the date you want to know: "))
+        s+= str(date) + "\n"
+        out = all_companies.get_reversals_up(date)
+        for i in range(len(out[0])):
+            s += str(5-i) + ") " + str(out[0][i]) + " " + str(out[1][i]) + '\n'
+        print(s)
+        email_list = ["tommyliu9@gmail.com","svj5271@gmail.com","ashwin23suresh@gmail.com",
+                      "jjh235@scarletmail.rutgers.edu","avni.mandhania@gmail.com","adamwstephens@gmail.com",
+                      "djdmello15@gmail.com"]
+        email_list2 = ["tommyliu@gmail.com", "jjh235@scarletmail.rutgers.edu"]
 
-    sendmail(s,subject1,email_list2+email_list)
+        s += "----------------------- " + "\n"
+    date = 3
+    while date != 0:
+        start = int(input("enter start: "))
+        end = int(input("enter end: "))
+        all_companies.overall_gains(start,end)
