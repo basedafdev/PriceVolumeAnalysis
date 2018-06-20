@@ -17,7 +17,7 @@ def update_data(id: str, source='robinhood'):
 def generate_company_list():
     """
     Return a list of all public companies
-    :return a list
+    :return a listx
     """
     path = 'companylist.csv'
     companyids = []
@@ -46,7 +46,7 @@ def generate_company_library():
         counter += 1
 
 if __name__ == "__main__":
-    """
+    """ 
     Updates Company library
     """''
     '[]='
