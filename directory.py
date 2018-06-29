@@ -135,15 +135,17 @@ class Directory:
                 today_price = id.close_prices[day_before]
                 today_volume = id.volumes[day_before]
                 yesterday_volume = id.volumes[day_before-1]
-                if 0 < price_change < 0.1 and 150 > float(today_price) > 5 and historical_volume > 100000 and \
-                        today_volume > historical_volume and today_volume > yesterday_volume        :
+                if 0 < price_change < 0.1 and 150 > float(today_price) > 4 and historical_volume > 100000 and \
+                        today_volume > historical_volume and today_volume > yesterday_volume and \
+                        id.close_prices[day_before] >  id.open_prices[day_before]:
+
                     temp.append((today_volume-historical_volume)/historical_volume)
                     company.append(id)
             except:
                 pass
 
         selectionSort(temp, company)
-        return (company[-10:], temp[-10:])
+        return (company[-5:], temp[-5:])
 
     def gains(self, start1, end1):
         """
@@ -159,8 +161,8 @@ class Directory:
             the_company = companies[0][company]
             if run:
                 for i in range(start,end+1):
-                    if the_company.volumes[start] < the_company.volumes[i] and the_company.close_prices[i] < the_company.close_prices[i-1]:
-                    #if the_company.close_prices[start] - the_company.close_prices[i] > 2*the_company.get_true_range(start1,10):
+                    #if the_company.volumes[start] < the_company.volumes[i] and the_company.close_prices[i] < the_company.close_prices[i-1]:
+                    if the_company.close_prices[start] - the_company.close_prices[i] > 7*the_company.get_true_range(start1,10):
                         sum += the_company.get_change_in_price(start1, companies[0][company].dates[i])*20000 +(20000)
 
                         print(the_company,the_company.get_change_in_price(start1, the_company.dates[i]))
