@@ -1,88 +1,77 @@
-import sys
-import csv
-from PyQt5 import QtGui
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from load_files import generate_company_list
-from PyQt5.QtWidgets import QApplication, QSlider, QWidget, QMainWindow,QMessageBox, QPushButton, QLineEdit, QLabel, QVBoxLayout, QListWidget, QStatusBar
+import kivy
 
+
+import webbrowser
+import kivy
+from kivy.config import Config
+from kivy.app import App
+from kivy.uix.button import Label
+from kivy.uix.floatlayout import  FloatLayout
+from kivy.uix.widget import Widget
+from kivy.uix.gridlayout import GridLayout
+from kivy.clock import Clock
+from kivy.uix.popup import Popup
+from KivyCalendar import CalendarWidget, DatePicker
 from directory import Directory
-from company import Company
-class Parameter_Widget(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.layout = QVBoxLayout()
+
+Config.set('graphics','width',800)
+Config.set('graphics','height',800)
+
+
+def convert_string_to_date(date: str):
+
+
+    date_list = date.split(".")
+    print(date_list)
+    new_list = []
+    new_list.append(date_list[2])
+    if len(date_list[1]) == 1:
+        new_list.append("0" + date_list[1])
+    else:
+        new_list.append(date_list[1])
+    if len(date_list[0]) == 1:
+        new_list.append("0" + date_list[0])
+    else:
+        new_list.append(date_list[0])
+
+    new_date = int(str(new_list[0]+new_list[1]+new_list[2]))
+
+    return new_date
+class CalcGridLayout(GridLayout):
+
+    def fake_init(self):
         self.directory = Directory()
-        self.title = "Price Volume Analysis"
-        self.x = 100
-        self.y = 100
-        self.width = 900
-        self.height = 500
-        self.watchlist = []
-        self.initUI()
+        self.dog = self.directory.get_reversals_up(0)[0]
+        print("Initialized")
+        return "Sort by Price Deviation"
+    def calculate(self, calculation):
+        print("CLICKED")
+        if calculation:
+            try:
+                self.display.text = str(eval(calculation))
+            except Exception:
+                self.display.text = "Error"
+    def top_ten(self, id):
 
-    def initUI(self):
-        #Initialization of User interface
+        b = int(id)
+        if  not hasattr(self, "dog"):
+            self.dog = ["","","","","","","","","","","",""]
+        return str(self.dog[b])
 
-        self.setWindowTitle(self.title)
-        self.setGeometry(self.x,self.y, self.width, self.height)
-        self.price_percent_display = QLineEdit()
-        self.max_price_display = QLineEdit()
-        self.max_volume_display = QLineEdit()
-        #Slider for max_price_change
-        self.max_price_change = QSlider(Qt.Horizontal)
-        self.max_price_change.setMaximum(100)
-        self.max_price_change.setMinimum(0)
-        self.max_price_change.setTickInterval(1)
-        self.max_price_change.setValue(0)
-        self.max_price_change.setTickPosition(QSlider.TicksBelow)
-        self.max_price_change.valueChanged.connect(self.v_change1)
-        #Slider for Max Price
-        self.max_price = QSlider(Qt.Horizontal)
-        self.max_price.setMaximum(2000)
-        self.max_price.setMinimum(2)
-        self.max_price.setTickInterval(1)
-        self.max_price.setTickInterval(QSlider.TicksBelow)
-        self.max_price.valueChanged.connect(self.v_change2)
-        #Slider for the Max_Volume
-        self.max_volume = QSlider(Qt.Horizontal)
-        self.max_volume.setMaximum(1000000)
-        self.max_volume.setMinimum(100)
-        self.max_volume.setTickInterval(1)
-        self.max_volume.setTickInterval(QSlider.TicksBelow)
-        self.max_volume.valueChanged.connect(self.v_change3)
-        #Slider for the Number of Trading days
-        vbox = QVBoxLayout()
-        vbox.addWidget(self.max_price_change)
-        vbox.addWidget(self.price_percent_display)
-        vbox.addWidget(self.max_price)
-        vbox.addWidget(self.max_price_display)
-        vbox.addWidget(self.max_volume)
-        vbox.addWidget(self.max_volume_display)
-        self.setLayout(vbox)
-        self.show()
+    def set_date(self, id):
 
-    def v_change1(self):
-        my_value = str(self.max_price_change.value()) + "% Maximum Price Change"
-        self.price_percent_display.setText(my_value)
-        self.displaytop()
-    def v_change2(self):
-        my_value = "$" + str(self.max_price.value()) +" Maximum Price"
-        self.max_price_display.setText(my_value)
-        self.displaytop()
-    def v_change3(self):
-        my_value = str(self.max_volume.value()) + " Minimum Volume"
-        self.max_volume_display.setText(my_value)
-        self.displaytop()
-    def displaytop(self):
-        s = ""
+        date = convert_string_to_date(id.text)
+        print(date)
+        self.dog = self.directory.get_reversals_up(date)[0]
 
-        out = self.directory.get_reversals_up_ui(self.max_price_change.value()/100, self.max_price.value(), self.max_volume.value(),0)
-        for i in range(len(out[0])):
-            s += str(5 - i) + ") " + str(out[0][i]) + " " + str(out[1][i]) + '\n'
-        print(s)
+    def pull_up_ticker(self, id):
+        webbrowser.open("http://stockcharts.com/h-sc/ui?s="+id.text)
+
+class CalculatorApp(App):
+
+    def build(self):
+        return CalcGridLayout()
 
 if __name__ == "__main__":
-    App = QApplication(sys.argv)
-    window = Parameter_Widget()
-    sys.exit(App.exec())
+    calcApp = CalculatorApp()
+    calcApp.run()

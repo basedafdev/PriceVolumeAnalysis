@@ -72,7 +72,7 @@ class Directory:
                 pass
 
         selectionSort(temp,company)
-        return (company[-5:],temp[-5:])
+        return (company[-10:],temp[-10:])
 
 
     def get_reversals_up_ui(self, max_price_change, max_price, volume,date):
@@ -145,7 +145,7 @@ class Directory:
                 pass
 
         selectionSort(temp, company)
-        return (company[-5:], temp[-5:])
+        return (company[-10:], temp[-10:])
 
     def gains(self, start1, end1):
         """
