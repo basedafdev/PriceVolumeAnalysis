@@ -1,5 +1,6 @@
 from load_files import update_data
 import csv
+import math
 
 class Company:
     """
@@ -16,7 +17,10 @@ class Company:
         self.high_prices = []
         self.low_prices = []
         self.open_prices = []
-        self.market_cap  = 0
+        self.company_name = ""
+        self.description = ""
+        self.sector = ""
+        self.market_cap = 0
         self.get_market_cap()
         self.populate_storage()
     def populate_storage(self):
@@ -57,8 +61,12 @@ class Company:
             with open(path,'r') as csv_file:
                 csv_reader = csv.reader(csv_file)
                 for line in csv_reader:
-                    if line[0] == self.id:
-                        self.market_cap = int(line[3])
+                    if line[0] == self.id.upper():
+                        self.company_name = line[1]
+                        self.sector = line[6]
+                        self.description = line[7]
+                        self.market_cap = float(line[3])
+
                         break
         except:
             pass
@@ -161,6 +169,8 @@ class Company:
         """
         return self.id
 
+
+
 if __name__ == "__main__":
-    x = Company('aapl')
-    print("TRUE RANGE: ", x.get_true_range(10))
+    x = Company('JASO')
+    print(x.market_cap)

@@ -89,7 +89,7 @@ class DatePicker(TextInput):
         self.popup = Popup(content=self.cal, on_dismiss=self.update_value, 
                            title="")
         self.cal.parent_popup = self.popup
-        print("init")
+        print("Initializing P/V")
         self.bind(focus=self.show_popup)
         
     def show_popup(self, isnt, val):

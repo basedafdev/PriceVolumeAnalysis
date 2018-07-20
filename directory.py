@@ -2,6 +2,7 @@ from load_files import generate_company_list
 from company import Company
 import smtplib
 import csv
+RESULTS = 50
 """
 Represents a company directory
 """
@@ -118,6 +119,7 @@ class Directory:
         company = []
 
         for id in self.companies:
+
             try:
 
                 day_of_trade = 0
@@ -130,22 +132,27 @@ class Directory:
                 day_before = day_of_trade-1
                 price_change = id.get_average_rate(id.dates[day_before-1], id.dates[day_before] , "PRICE")
 
-                historical_volume = id.getavg(id.dates[day_before-10], id.dates[day_before-1], "VOLUME")
+                historical_volume = id.getavg(id.dates[day_before-20], id.dates[day_before-1], "VOLUME")
+                #price_ratio = get_down_ratio(day_of_trade, id)
 
                 today_price = id.close_prices[day_before]
                 today_volume = id.volumes[day_before]
                 yesterday_volume = id.volumes[day_before-1]
-                if 0 < price_change < 0.1 and 150 > float(today_price) > 4 and historical_volume > 100000 and \
-                        today_volume > historical_volume and today_volume > yesterday_volume and \
-                        id.close_prices[day_before] >  id.open_prices[day_before]:
 
-                    temp.append((today_volume-historical_volume)/historical_volume)
+                if 0 > price_change > -0.3 and 150 > float(today_price) > 5 and historical_volume > 100000 and \
+                        today_volume > historical_volume and today_volume > yesterday_volume and \
+                        id.close_prices[day_before] <  id.open_prices[day_before] and id.market_cap > 500000000:
+                    volume_deviation = (today_volume)/historical_volume
+                    temp.append((volume_deviation,price_change))
                     company.append(id)
+
             except:
                 pass
 
-        selectionSort(temp, company)
-        return (company[-10:], temp[-10:])
+        selectionSort(temp, company,0)
+        return (company[-RESULTS:], temp[-RESULTS:])
+
+
 
     def gains(self, start1, end1):
         """
@@ -175,10 +182,10 @@ class Directory:
                 print(the_company,the_company.get_change_in_price(start1, end1))
                 sum += the_company.get_change_in_price(start1, end1) *20000 + (20000)
 
-        print("Day's Returns:", sum, "|| PERCENT RETURN", str((sum - 100000) / 100000))
+        print("Day's Returns:", sum, "|| PERCENT RETURN", str((sum - 200000) / 200000))
         print("________________________________________")
 
-        return (sum - 100000) / 100000
+        return (sum - 200000) / 200000
 
     def overall_gains1(self, start1, end1):
         total = 0
@@ -194,7 +201,7 @@ class Directory:
     def overall_gains(self, start1, end1):
         """
         Generates a csv document of all the potential gains from
-        a certain company
+        a certain companyt
         """
 
         all_companies = []
@@ -283,13 +290,13 @@ class Directory:
             zone = 'D'
         return (company,zone,price_change*volume_change,price_change,volume_change)
 
-def selectionSort(alist,company):
+def selectionSort(alist,company, type):
     # Modified version of selection sort such that it supports the Company Object
     # Returns None
    for fillslot in range(len(alist)-1,0,-1):
        positionOfMax=0
        for location in range(1,fillslot+1):
-           if alist[location]>alist[positionOfMax]:
+           if alist[location][type]>alist[positionOfMax][type]:
                positionOfMax = location
 
        temp = alist[fillslot]
@@ -335,6 +342,18 @@ def sendmail(s,subject,email_list):
         mail.sendmail('fromemail', email, message)
     mail.close()
 
+def get_down_ratio(date, company):
+    tally = 0
+
+    for i in range(1,21):
+        change = company.get_average_rate(company.dates[date-i-1], company.dates[date-i], "PRICE")
+
+        if change < 0:
+            tally += 1
+
+    tally = tally/20
+
+    return tally
 if __name__ == "__main__":
     """
     MAIN METHOD
@@ -357,7 +376,7 @@ if __name__ == "__main__":
         "jjh235@scarletmail.rutgers.edu","avni.mandhania@gmail.com","adamwstephens@gmail.com",
         "djdmello15@gmail.com"]
         email_list2 = ["tommyliu9@gmail.com", "jjh235@scarletmail.rutgers.edu","tarun.mandhania@kinetixtt.com"]
-        sendmail(s,"TOP 10 Potential Reversals",email_list2)
+        #sendmail(s,"TOP 10 Potential Reversals",email_list2)
         s += "----------------------- " + "\n"
     date = 3
     while date != 0:
