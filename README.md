@@ -46,8 +46,8 @@ To do Date input just input the date in this format:
    this equates to 07/24/2018
 
 
-If you want to skip all of this work, just shoot me an email with your email address and I'll send over a top 100
-list of stocks.
+If you want to skip all of this work, just shoot me an email with your email address and I'll try send over a top 100
+list of stocks everyday
 
 
 
