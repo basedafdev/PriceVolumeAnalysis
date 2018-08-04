@@ -29,8 +29,18 @@ Depedencies that need to be installed:
     pip install KivyCalender
     pip install Kivy-Garden
     
+Steps To Running the Application:
+
+1) Run load_files.py     (this will update all the .csv files in the company_library)
+
+
+2) Run directory.py or main_ui.py
+
+
 If you want just want to see the stocks itself without the User Interface, run directory.py.
-And for input just input the date in this format:
+
+And Date input just input the date in this format
+
 yearmonthday
 
 example: 20180724 
