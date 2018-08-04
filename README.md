@@ -36,5 +36,6 @@ yearmonthday
 example: 20180724 
 this equates to 07/24/2018
 
+If you have any issues, concerns, or bugs shoot me a message at toms.liu@mail.utoronto.ca
 
 Happy Investing!
