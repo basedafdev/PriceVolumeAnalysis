@@ -40,10 +40,10 @@ Steps To Running the Application:
 If you want just want to see the stocks itself without the User Interface, run directory.py.
 To do Date input just input the date in this format:
 
-   *yearmonthday
+   **yearmonthday**
 
-  * example: 20180724 
-   *this equates to 07/24/2018
+   **example: 20180724 **
+   **this equates to 07/24/2018**
 
 
 If you want to skip all of this work, just shoot me an email with your email address and I'll try send over a top 100
