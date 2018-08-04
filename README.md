@@ -1,12 +1,6 @@
-# Price-Volume Equity Analysis
+# Price-Volume Equity Scanner
 **Equity analysis tool that forecasts price reversals**
-
-**CTO**: Thomas Liu \
-**Equiity-Analyst**: Jeff Harris \
-**Credit**: Ashwin, Sanjana, Avni, Daniel, Tarun\
-**In association with**:
-
-**KINETIX TRADING SOLUTIONS**
+Thomas Liu
 
 Breakdown:
 
@@ -19,7 +13,28 @@ Breakdown:
 4. directory.py
     * CLASS: Represents a directory of companies. Has attributes;
 5. load_files.py
-    * METHODS: Updates, generates, and populates the company_librar
+    * METHODS: Updates, generates, and populates the company_library
 6. main_ui.py
     * User interface
     ****
+    
+Make sure python 3.6 or greater is installed.
+
+
+Depedencies that need to be installed:
+
+    pip install pandas
+    pip install pandas_datareader
+    pip install Kivy
+    pip install KivyCalender
+    pip install Kivy-Garden
+    
+If you want just want to see the stocks itself without the User Interface, run directory.py.
+And for input just input the date in this format:
+yearmonthday
+
+example: 20180724 
+this equates to 07/24/2018
+
+
+Happy Investing!
