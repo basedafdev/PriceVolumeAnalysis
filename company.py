@@ -83,28 +83,7 @@ class Company:
         end_index = self.dates.index(end)
         return (self.close_prices[end_index] - self.open_prices[start_index])/self.open_prices[start_index]
 
-    def get_average_rate(self, start: int, end: int, category: str):
-        """
-        Return the average rate of change for a specific time-range
-        start: start_date int
-        end: end_date int
-        category: price or volume
-        """
 
-        if start not in self.dates or end not in self.dates:
-            raise IndexError
-
-        start_index = self.dates.index(start)
-        end_index = self.dates.index(end)
-
-        if category == "PRICE":
-            return (self.close_prices[start_index] +\
-                    ((self.close_prices[end_index]-self.close_prices[start_index])/ \
-                    (end_index-start_index)))/self.close_prices[start_index] - 1
-        else:
-            return (self.volumes[start_index] + \
-                    ((self.volumes[end_index]-self.volumes[start_index])/\
-                    (end_index-start_index)))/self.volumes[start_index] - 1
 
     def getavg(self, start: int, end: int, category: str):
         """

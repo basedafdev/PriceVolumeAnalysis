@@ -91,7 +91,7 @@ class Directory:
                 else:
                     day_of_trade = id.dates.index(date)
                 day_before = day_of_trade - 1
-                price_change = id.get_average_rate(id.dates[day_before - 1], id.dates[day_before], "PRICE")
+                price_change = id.get_change_in_price(id.dates[day_before - 1], id.dates[day_before])
 
                 historical_volume = id.getavg(id.dates[day_before - 15], id.dates[day_before - 1], "VOLUME")
 
@@ -107,6 +107,7 @@ class Directory:
 
         selectionSort(temp, company)
         return (company[-5:], temp[-5:])
+
     def get_reversals_up(self, date):
         """
         Returns a list of potential up-ward reversals
@@ -130,7 +131,7 @@ class Directory:
                 else:
                     day_of_trade = id.dates.index(date)
                 day_before = day_of_trade-1
-                price_change = id.get_average_rate(id.dates[day_before-1], id.dates[day_before] , "PRICE")
+                price_change = id.get_change_in_price(id.dates[day_before], id.dates[day_before])
 
                 historical_volume = id.getavg(id.dates[day_before-20], id.dates[day_before-1], "VOLUME")
                 #price_ratio = get_down_ratio(day_of_trade, id)
@@ -139,9 +140,10 @@ class Directory:
                 today_volume = id.volumes[day_before]
                 yesterday_volume = id.volumes[day_before-1]
 
-                if 0 > price_change > -0.3 and 150 > float(today_price) > 5 and historical_volume > 100000 and \
-                        today_volume > historical_volume and today_volume > yesterday_volume and \
-                        id.close_prices[day_before] <  id.open_prices[day_before] and id.market_cap > 500000000:
+                if 0 < price_change < .030 and 150 > float(today_price) > 5 and historical_volume > 100000 and \
+                        today_volume > historical_volume and today_volume > yesterday_volume*1.2 and \
+                        id.close_prices[day_before] >  id.open_prices[day_before] and id.market_cap > 1000000000:
+
                     volume_deviation = (today_volume)/historical_volume
                     temp.append((volume_deviation,price_change))
                     company.append(id)
@@ -236,43 +238,7 @@ class Directory:
                 pass
 
         print(sum)
-    def short_sell(self,date):
-        """
-        Returns a list of potential down-ward reversals. Perfect for them short sellers
-        1)
-        2)
-        3)
-        4)
-        """
 
-        temp = []
-        company = []
-
-        for id in self.companies:
-            try:
-
-                day_of_trade = 0
-                day_before = 0
-                if date not in id.dates:
-                    day_of_trade = len(id.dates)
-
-                else:
-                    day_of_trade = id.dates.index(date)
-                day_before = day_of_trade - 1
-                price_change = id.get_average_rate(id.dates[day_before - 1], id.dates[day_before], "PRICE")
-
-                historical_volume = id.getavg(id.dates[day_before - 22], id.dates[day_before - 1], "VOLUME")
-
-                today_price = id.close_prices[day_before]
-                today_volume = id.volumes[day_before]
-                if 0 < price_change < -0.05 and float(today_price) > 2 and historical_volume > 100000:
-                    temp.append((today_volume - historical_volume) / historical_volume)
-                    company.append(id)
-            except:
-                pass
-
-        selectionSort(temp, company)
-        return (company[-5:], temp[-5:])
     def get_zone(self, company, start_date, end_date):
         """
         Returns a tuple of what zone, area of growth, change in volume, and change in price.
@@ -354,10 +320,11 @@ def get_down_ratio(date, company):
     tally = tally/20
 
     return tally
+
 if __name__ == "__main__":
     """
     MAIN METHOD
-    PASS IN A DATE TO RETURN THE TOP 10 STOCKS TO INVEST IN
+    PASS IN A DATE TO RETURN THE TOP STOCKS TO INVEST IN
     THAT DAY 
     """
 
@@ -370,7 +337,7 @@ if __name__ == "__main__":
         s+= str(date) + "\n"
         out = all_companies.get_reversals_up(date)
         for i in range(len(out[0])):
-            s += str(10-i) + ") " + str(out[0][i]) + " " + str(out[1][i]) + '\n'
+            s += str(len(out[0]) - i) + ") " + str(out[0][i]) + " " + str(out[1][i]) + '\n'
         print(s)
         email_list = ["tommyliu9@gmail.com","svj5271@gmail.com","ashwin23suresh@gmail.com",
         "jjh235@scarletmail.rutgers.edu","avni.mandhania@gmail.com","adamwstephens@gmail.com",
@@ -378,7 +345,7 @@ if __name__ == "__main__":
         email_list2 = ["tommyliu9@gmail.com", "jjh235@scarletmail.rutgers.edu","tarun.mandhania@kinetixtt.com"]
         #sendmail(s,"TOP 10 Potential Reversals",email_list2)
         s += "----------------------- " + "\n"
-    date = 3
+    date = -1
     while date != 0:
         start = int(input("enter start: "))
         end = int(input("enter end: "))

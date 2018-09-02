@@ -17,7 +17,7 @@ def update_data(id: str, source='robinhood'):
 def generate_company_list():
     """
     Return a list of all public companies
-    :return a listx
+    :return a list              x
     """
     path = 'companylist.csv'
     companyids = []

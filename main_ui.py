@@ -92,7 +92,7 @@ class CalcGridLayout(GridLayout):
         temp = self.directory.get_reversals_up(self.date)
         selectionSort(temp[1], temp[0],1)
         self.dog = temp[0]
-    
+
     def sort_by_volume_low_to_high(self):
         """ Sort the stocks by low to high Volume deviation
         """
@@ -131,8 +131,7 @@ class CalcGridLayout(GridLayout):
                 daybefore = len(company.dates)-1
             else:
                 daybefore = company.dates.index(self.date)-1
-            price_change = company.get_average_rate(company.dates[daybefore - 1], company.dates[daybefore],
-                                                    category="PRICE")
+            price_change = company.get_change_in_price(company.dates[daybefore], company.dates[daybefore])
             historical_volume = company.getavg(company.dates[daybefore - 20], company.dates[daybefore - 1], "VOLUME")
             today_volume = company.volumes[daybefore]
 
@@ -142,7 +141,8 @@ class CalcGridLayout(GridLayout):
             dialog += "Sector: " + str(company.sector) + "\n"
             dialog += "Description: " + str(company.description) + '\n'
             dialog += "Price Change: " + str(round(price_change*100,2)) + "%" + "\n"
-            dialog += "Volume Deviation " + str(round(volume_deviation,2)) + "\n"
+            dialog += "Volume Deviation: " + str(round(volume_deviation,2)) + "\n"
+
             new_label = Label(text=dialog)
             new_label.font_size = 15
             new_label.color = 1,1,1,1
