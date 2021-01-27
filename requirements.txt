@@ -1,0 +1,5 @@
+pandas
+pandas_datareader
+Kivy
+KivyCalender
+Kivy-Garden
